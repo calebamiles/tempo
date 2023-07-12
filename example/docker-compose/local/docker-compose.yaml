@@ -5,8 +5,8 @@ services:
     image: grafana/tempo:latest
     command: [ "-config.file=/etc/tempo.yaml" ]
     volumes:
-      - ../shared/tempo.yaml:/etc/tempo.yaml
-      - ./tempo-data:/tmp/tempo
+      - ../shared/tempo.yaml:/etc/tempo.yaml:Z,U
+      - ./tempo-data:/tmp/tempo:Z,U
     ports:
       - "14268:14268"  # jaeger ingest
       - "3200:3200"   # tempo
@@ -30,14 +30,14 @@ services:
       - --web.enable-remote-write-receiver
       - --enable-feature=exemplar-storage
     volumes:
-      - ../shared/prometheus.yaml:/etc/prometheus.yaml
+      - ../shared/prometheus.yaml:/etc/prometheus.yaml:Z,U
     ports:
       - "9090:9090"
 
   grafana:
     image: grafana/grafana:9.4.3
     volumes:
-      - ../shared/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ../shared/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:Z,U
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
